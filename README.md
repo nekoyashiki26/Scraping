@@ -10,16 +10,13 @@
 ## Usage
 ``` shll
 #change directory
-
-- $ cd "your project directory"    
+$ cd "your project directory"
 
 #search trend
-
-- $ python3 twitter.py
+$ python3 twitter.py
 
 #seach word in twitter
-
-- $ python3 twitter.py "word"    
+$ python3 twitter.py "word"    
 ```
 
 ## Installation 
