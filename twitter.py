@@ -18,11 +18,10 @@ def trend(api):
     list = []
     for trend_str in trends_list:
         trend_list = trend_str.split()
-
         if len(trend_list) != 2:
             continue
         elif(trend_list[0] in '\"name\":' or trend_list[0] in '\"url\":'):
-            print(trend_list[0]+':'+trend_list[1])
+            print(trend_list[0]+trend_list[1])
             list.append(trend_list[1])
         else:
             continue
@@ -30,11 +29,11 @@ def trend(api):
     
     for i in range(int((len(list) - 1) / 2)):
         if i == 0:
-            f.write(f'\t\t\t<li class="list-group-item">{list[i]}</li>')
+            f.write(f'\t\t\t<h5>twitter trend: {list[i]}</h5>\n')
         else:
-            f.write(f'\t\t\t<a href={list[i * 2]} class="list-group-item list-group-item-action">')
-            f.write(list[i * 2  -1])
-            f.write('</a>'+'\n')
+            f.write(f'\t\t\t<a href={list[i * 2]} class="list-group-item list-group-item-action">\n')
+            f.write('\t\t\t\t'+list[i * 2  -1]+'\n')
+            f.write('\t\t\t</a>'+'\n')
 
     f.write('\t\t</div>\n\t</body>\n</html>')
     f.close()
