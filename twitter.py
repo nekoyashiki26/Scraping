@@ -7,24 +7,36 @@ import inspect
 from config import *
 
 def trend(api):
+    f= open('trend.html', 'w')
+    with open('bootstrap.txt') as temp:
+        for line in temp:
+            f.write(line)
     # トレンドを検索
     result = api.trends_place('23424856')
-    #f = open('output.json', 'w')
     text = json.dumps(result, sort_keys=True, ensure_ascii=False)
     trends_list = re.split('[{},\[\]]',text)
-    f = open('trend.html', 'w')
+    list = []
     for trend_str in trends_list:
         trend_list = trend_str.split()
+
         if len(trend_list) != 2:
             continue
-        elif(trend_list[0] in '\"name\":'):
-            f.write("<p>"+trend_list[1]+"</p>")
-        elif(trend_list[0] in '\"url\":'):
-            f.write("<p><a href="+trend_list[1]+" target=\"_blank\">"+trend_list[1]+"</a></p>")
-            f.write("")
+        elif(trend_list[0] in '\"name\":' or trend_list[0] in '\"url\":'):
+            print(trend_list[0]+':'+trend_list[1])
+            list.append(trend_list[1])
         else:
             continue
 
+    
+    for i in range(int((len(list) - 1) / 2)):
+        if i == 0:
+            f.write(f'\t\t\t<li class="list-group-item">{list[i]}</li>')
+        else:
+            f.write(f'\t\t\t<a href={list[i * 2]} class="list-group-item list-group-item-action">')
+            f.write(list[i * 2  -1])
+            f.write('</a>'+'\n')
+
+    f.write('\t\t</div>\n\t</body>\n</html>')
     f.close()
     subprocess.check_output(["open","trend.html"])
 
