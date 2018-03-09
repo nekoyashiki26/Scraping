@@ -26,8 +26,6 @@ def trend(api):
         else:
             continue
 
-
-
     
     for i in range(int((len(list) - 1) / 2)):
         if i == 0:
