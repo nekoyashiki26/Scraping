@@ -29,13 +29,13 @@ def trend(api):
     
     for i in range(int((len(list) - 1) / 2)):
         if i == 0:
-            f.write(f'\t\t\t<h5>twitter trend: {list[i]}</h5>\n')
+            f.writelines(f'\t\t\t<h5>twitter trend: {list[i]}</h5>\n')
         else:
-            f.write(f'\t\t\t<a href={list[i * 2]} class="list-group-item list-group-item-action">\n')
-            f.write('\t\t\t\t'+list[i * 2  -1]+'\n')
-            f.write('\t\t\t</a>'+'\n')
+            f.writelines(f'\t\t\t<a href={list[i * 2]} class="list-group-item list-group-item-action col-md-4">\n')
+            f.writelines('\t\t\t\t'+list[i * 2  -1]+'\n')
+            f.writelines('\t\t\t</a>'+'\n')
 
-    f.write('\t\t</div>\n\t</body>\n</html>')
+    f.writelines('\t\t</div>\n\t</body>\n</html>')
     f.close()
     subprocess.check_output(["open","trend.html"])
 
