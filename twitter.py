@@ -15,14 +15,17 @@ def trend(api):
     result = api.trends_place('23424856')
     text = json.dumps(result, sort_keys=True, ensure_ascii=False)
     trends_list = re.split('[{},\[\]]',text)
+    trends_list = filter(lambda str:str != '', trends_list)
     list = []
     for trend_str in trends_list:
-        trend_list = trend_str.split()
-        print(trend_list)        
-        if len(trend_list) != 2:
+        trend = trend_str.replace(' ','')
+        trend = trend_str.replace('"','').split(': ')
+        print(trend)
+        if len(trend) != 2:
             continue
-        elif(trend_list[0] in '\"name\":' or trend_list[0] in '\"url\":'):
-            list.append(trend_list[1])
+        elif(trend[0] in 'name' or trend[0] in ' url'):
+            print(trend[1])
+            list.append(trend[1])
         else:
             continue
 
@@ -38,6 +41,7 @@ def trend(api):
             f.writelines(f'{tab(3)}</thead>{new_line()}')
             f.writelines(f'{tab(3)}<tbody>{new_line()}')
         else:
+            cnt+=1
             f.writelines(f'{tab(4)}<tr>{new_line()}')
             f.writelines(f'{tab(5)}<th scope="row">{cnt}</th>{new_line()}')
             f.writelines(f'{tab(5)}<td>{list[i * 2  -1]}</td>{new_line()}')
