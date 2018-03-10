@@ -18,24 +18,38 @@ def trend(api):
     list = []
     for trend_str in trends_list:
         trend_list = trend_str.split()
+        print(trend_list)        
         if len(trend_list) != 2:
             continue
         elif(trend_list[0] in '\"name\":' or trend_list[0] in '\"url\":'):
-            print(trend_list[0]+trend_list[1])
             list.append(trend_list[1])
         else:
             continue
 
-    
+    cnt = 0
     for i in range(int((len(list) - 1) / 2)):
         if i == 0:
-            f.writelines(f'\t\t\t<h5>twitter trend: {list[i]}</h5>\n')
+            f.writelines(f'{tab(3)}<thead>{new_line()}')
+            f.writelines(f'{tab(4)}<tr>{new_line()}')
+            f.writelines(f'{tab(5)}<th>#</th>{new_line()}')
+            f.writelines(f'{tab(5)}<th>trend</th>{new_line()}')
+            f.writelines(f'{tab(5)}<th>url</th>{new_line()}')
+            f.writelines(f'{tab(4)}</tr>{new_line()}')
+            f.writelines(f'{tab(3)}</thead>{new_line()}')
+            f.writelines(f'{tab(3)}<tbody>{new_line()}')
         else:
-            f.writelines(f'\t\t\t<a href={list[i * 2]} class="list-group-item list-group-item-action col-md-4">\n')
-            f.writelines('\t\t\t\t'+list[i * 2  -1]+'\n')
-            f.writelines('\t\t\t</a>'+'\n')
-
-    f.writelines('\t\t</div>\n\t</body>\n</html>')
+            f.writelines(f'{tab(4)}<tr>{new_line()}')
+            f.writelines(f'{tab(5)}<th scope="row">{cnt}</th>{new_line()}')
+            f.writelines(f'{tab(5)}<td>{list[i * 2  -1]}</td>{new_line()}')
+            f.writelines(f'{tab(5)}<td>{new_line()}')
+            f.writelines(f'{tab(6)}<a href={list[i * 2]} class="list-group-item list-group-item-action">{list[i * 2]}</a>{new_line()}')
+            f.writelines(f'{tab(5)}</td>{new_line()}')
+            f.writelines(f'{tab(4)}</tr>{new_line()}')
+    
+    f.writelines(f'{tab(3)}</tbody>{new_line()}')
+    f.writelines(f'{tab(2)}</table>{new_line()}')
+    f.writelines(f'{tab(1)}</body>{new_line()}')
+    f.writelines('</html>')
     f.close()
     subprocess.check_output(["open","trend.html"])
 
@@ -56,6 +70,13 @@ def serch_tweet(api,topic):
             f.write("")
     f.close()
     subprocess.check_output(["open","search_result.html"])
+
+def tab(num):
+    return '\t' * num
+
+def new_line():
+    return '\n'
+
 if __name__ == "__main__":
     argvs = sys.argv
     argc = len(argvs)
