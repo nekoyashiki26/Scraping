@@ -5,9 +5,12 @@ import subprocess
 import sys
 import inspect
 from config import *
+import datetime
 
 def trend(api):
-  f= open('trend.html', 'w')
+  now = datetime.datetime.today()
+  f_name = str(now.date())+'-'+str(now.time())+'-'+'trend.html'
+  f= open(f_name, 'w')
   with open('bootstrap.txt') as temp:
     for line in temp:
       f.write(line)
@@ -53,10 +56,11 @@ def trend(api):
   f.writelines(f'{tab(1)}</body>{new_line()}')
   f.writelines('</html>')
   f.close()
-  subprocess.check_output(["open","trend.html"])
+  subprocess.check_output(["mv",f_name,"trend"])
+  subprocess.check_output(["open",'./trend/'+f_name])
 
 def serch_tweet(api,topic):
-  f = open('search_result.html', 'w')
+      f = open('search_result.html', 'w')
   search_result = api.search(q=topic, lang='ja', count=100)
   for result in search_result:
     #リツイートかチェック
