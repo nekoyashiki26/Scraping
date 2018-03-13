@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>twitter trend</title>
-        <link rel="icon" type="image/x-icon" href="./bootstrap/favicon.ico">
-        <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="./bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <table class="table table-bordered ">
-			<thead class="thead-dark">
-				<tr>
-					<th>#</th>
-					<th>trend</th>
-					<th>url</th>
-				</tr>
+  <head>
+    <meta charset="utf-8">
+    <title>twitter trend</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <table class="table table-bordered ">
+      <thead class="thead-dark">
+		    <tr>
+		      <th>#</th>
+		      <th>trend</th>
+		      <th>url</th>
+        </tr>
 			</thead>
-			<tbody>
+    <tbody>

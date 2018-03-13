@@ -77,7 +77,7 @@ def serch_tweet(api,topic):
   subprocess.check_output(["open","search_result.html"])
 
 def tab(num):
-  return '\t' * num
+  return ' ' * num * 2
 
 def new_line():
   return '\n'
