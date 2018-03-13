@@ -7,11 +7,14 @@ import inspect
 from config import *
 import datetime
 
+argv = sys.argv
+argc = len(argv)
+
 def trend(api):
   now = datetime.datetime.today()
   f_name = str(now.date())+'-'+str(now.time())+'-'+'trend.html'
   f= open(f_name, 'w')
-  with open('bootstrap.txt') as temp:
+  with open('bootstrap-head.txt') as temp:
     for line in temp:
       f.write(line)
     # トレンドを検索
@@ -32,16 +35,7 @@ def trend(api):
 
   cnt = 0
   for i in range(int((len(list) - 1) / 2)):
-    if i == 0:
-      f.writelines(f'{tab(3)}<thead>{new_line()}')
-      f.writelines(f'{tab(4)}<tr>{new_line()}')
-      f.writelines(f'{tab(5)}<th>#</th>{new_line()}')
-      f.writelines(f'{tab(5)}<th>trend</th>{new_line()}')
-      f.writelines(f'{tab(5)}<th>url</th>{new_line()}')
-      f.writelines(f'{tab(4)}</tr>{new_line()}')
-      f.writelines(f'{tab(3)}</thead>{new_line()}')
-      f.writelines(f'{tab(3)}<tbody>{new_line()}')
-    else:
+    if i != 0:
       cnt+=1
       f.writelines(f'{tab(4)}<tr>{new_line()}')
       f.writelines(f'{tab(5)}<th scope="row">{cnt}</th>{new_line()}')
@@ -50,17 +44,22 @@ def trend(api):
       f.writelines(f'{tab(6)}<a href={list[i * 2]} class="list-group-item list-group-item-action" target="_blank">{list[i * 2]}</a>{new_line()}')
       f.writelines(f'{tab(5)}</td>{new_line()}')
       f.writelines(f'{tab(4)}</tr>{new_line()}')
-    
-  f.writelines(f'{tab(3)}</tbody>{new_line()}')
-  f.writelines(f'{tab(2)}</table>{new_line()}')
-  f.writelines(f'{tab(1)}</body>{new_line()}')
-  f.writelines('</html>')
+
+  with open('bootstrap-bottom.txt') as temp:
+    for line in temp:
+      f.write(line)
+
   f.close()
-  subprocess.check_output(["mv",f_name,"trend"])
-  subprocess.check_output(["open",'./trend/'+f_name])
+  if argc == 2 and argv[1] == '-s':
+    subprocess.check_output(["mv",f_name,"trend"])
+    subprocess.check_output(["open",'./trend/'+f_name])
+  else:
+    subprocess.check_output(["mv",f_name,"trend"])
+    subprocess.check_output(["open",'./trend/'+f_name])
+    subprocess.check_output(["rm",'./trend/'+f_name])
 
 def serch_tweet(api,topic):
-      f = open('search_result.html', 'w')
+  f = open('search_result.html', 'w')
   search_result = api.search(q=topic, lang='ja', count=100)
   for result in search_result:
     #リツイートかチェック
@@ -84,8 +83,6 @@ def new_line():
   return '\n'
 
 if __name__ == "__main__":
-  argvs = sys.argv
-  argc = len(argvs)
   # Twitter APIの認証情報
   # Twitterの開発者向けのページで取得したキーとトークンを使う
 
@@ -93,7 +90,7 @@ if __name__ == "__main__":
   auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
   auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
   api = tweepy.API(auth)
-  if argc == 2:
-    serch_tweet(api,argvs[1])
+  if argc == 3:
+    serch_tweet(api,argv[2])
   else:
     trend(api)
